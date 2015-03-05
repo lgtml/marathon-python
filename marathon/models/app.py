@@ -25,7 +25,7 @@ class MarathonApp(MarathonResource):
     :param int disk: disk required per instance
     :param deployments: (read-only) currently running deployments that affect this app
     :type deployments: list[:class:`marathon.models.deployment.MarathonDeployment`]
-    :param dict env: env vars
+    :param dict env: env vars Map[string,string]
     :param str executor: executor
     :param health_checks: health checks
     :type health_checks: list[:class:`marathon.models.MarathonHealthCheck`] or list[dict]
@@ -90,7 +90,7 @@ class MarathonApp(MarathonResource):
             for d in (deployments or [])
         ]
         self.disk = disk
-        self.env = env
+        self.env = {k: str(v) for k,v in env.iteritems()}
         self.executor = executor
         self.health_checks = health_checks or []
         self.health_checks = [
